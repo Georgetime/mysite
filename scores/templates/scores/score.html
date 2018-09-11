@@ -1,0 +1,6 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+    {% for schedule in student.schedule_set.all %}
+        <a href="{% url 'scores:score_detail' schedule.term %}" data-role="button">{{ schedule.get_term_display }}</a>
+    {% endfor %}
+{% endblock %}

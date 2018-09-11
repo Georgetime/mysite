@@ -1,0 +1,38 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+    {% if succeed_msg %}
+        <p><strong>{{ succeed_msg }}</strong></p>
+    {% endif %}
+    <h3>{{ assignment.assignment_title }}</h3>
+    <p>详细: {{ assignment.assignment_detail }}</p>
+    <p>开始时间: {{ assignment.create_date }}</p>
+    <p>完成时间: {{ assignment.finish_date }}</p>
+    <p>班级： {{ assignment.schedule.class_name }}</p>
+    <a href="{% url 'scores:score_manage_input' assignment.id %}"   data-role="button">填报成绩</a>
+    {% if assignment.score_set.all %}
+        <table data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="隐藏">
+            <thead>
+            <tr>
+                <td data-priority="4">序号</td>
+                <td>学生</td>
+{#                <td>作业： </td>#}
+                <td>级别</td>
+                <td data-priority="3">分数</td>
+                <td data-priority="2">加分</td>
+                <td data-priority="1">备注</td>
+            </tr>
+            </thead>
+            {% for score in assignment.score_set.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ score.student }}</td>
+{#                    <td>{{ assignment.assignment_title }}</td>#}
+                    <td>{{ score.get_level_display }}</td>
+                    <td>{{ score.grade }}</td>
+                    <td>{{ score.extra_grade }}</td>
+                    <td>{{ score.description }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

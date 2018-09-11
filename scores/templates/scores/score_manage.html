@@ -1,0 +1,21 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+    {% if latest_Assignment_list%}
+        <table class="ui-table">
+            <tr>
+                <td>序号</td>
+                <td>作业名称</td>
+            </tr>
+            {% for assignment in latest_Assignment_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <a href="{% url 'scores:score_manage_detail' assignment.id %}"  data-role="button">
+                            {{ assignment.assignment_title }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

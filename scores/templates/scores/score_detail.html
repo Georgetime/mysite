@@ -1,0 +1,45 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+    {% for subject in subject_list %}
+        <div data-role="collapsible" {% if forloop.counter == 1 %}data-collapsed="false"{% endif %}>
+            <legend>
+                <button >
+                    {{ subject }}
+                    {% for total in total_list %}
+                        {% if total.schedule.subject == subject %}
+                            >>>总分:{{ total.total }}
+                        {% endif %}
+                    {% endfor %}
+                </button>
+            </legend>
+            <table data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="显示">
+                <thead>
+                <tr>
+                    <th data-priority="6">序号</th>
+                    <th>作业</th>
+                    <th data-priority="5">开始日期</th>
+                    <th data-priority="4">完成日期</th>
+                    <th>成绩</th>
+                    <th>分数</th>
+                    <th>加分</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for score in score_list %}
+                    {% if score.assignment.schedule.subject == subject %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ score.assignment }}</td>
+                            <td>{{ score.assignment.create_date }}</td>
+                            <td>{{ score.assignment.finish_date }}</td>
+                            <td>{{ score.get_level_display }}</td>
+                            <td>{{ score.grade }}</td>
+                            <td>{{ score.extra_grade }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endblock %}

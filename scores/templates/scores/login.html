@@ -1,0 +1,22 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+{% if message %}
+ {{ message }}
+{% endif %}
+<div>
+   <form method="post" action="{% url 'scores:login' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+           <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+             <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+           </div>
+        {% endfor %}
+         <button type="submit" value="Login">Login</button>
+   </form>
+{#    <a href="{% url 'scores:register'  %}" class="btn btn-default">Register</a>#}
+</div>
+{% endblock %}

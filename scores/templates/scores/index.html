@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scores Management System</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'scores/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'scores/css/jquery.mobile-1.4.5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'scores/css/style.css' %}">
+</head>
+<body>
+<div data-role="page" >
+    <div data-role="header">
+        <h1>Welcome to S M S</h1>
+        <div data-role="navbar">
+            <ul>
+                <li><a href="{% url 'scores:index' %}" data-icon="home">首页</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'scores:pwd_change' %}"  data-icon="edit">密码</a> </li>
+                    <li><a href="{% url 'scores:logout' %}"  data-icon="power">Logout</a> </li>
+                {% else %}
+                    <li><a href="{% url 'scores:login' %}" data-icon="user">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div>
+        {#    {% if user.is_authenticated %}#}
+        {#        <nav class="navbar navbar-default" role="navigation">#}
+        {#            <div class="container-fluid">#}
+        {#                <div class="navbar-header">#}
+        {#                    <button type="button" class="navbar-toggle" data-toggle="collapse"#}
+        {#                            data-target="#example-navbar-collapse">#}
+        {#                        <span class="sr-only">切换导航</span>#}
+        {#                        <span class="icon-bar"></span>#}
+        {#                        <span class="icon-bar"></span>#}
+        {#                        <span class="icon-bar"></span>#}
+        {#                    </button>#}
+        {#                    <a class="navbar-brand" href="#">控制面板</a>#}
+        {#                </div>#}
+        {#                <div class="collapse navbar-collapse" id="example-navbar-collapse">#}
+        {#                    <ul class="nav navbar-nav" >#}
+        {#                        <li><a href="{% url 'scores:index' %}">首页</a></li>#}
+        {#                        {% if user.is_superuser or 'scores.access_score_manage' in user.get_group_permissions or 'scores.access_schedule_manage' in user.get_group_permissions or 'scores.access_assignment_manage' in user.get_group_permissions  %}#}
+        {#                            {% if user.is_superuser or 'scores.access_schedule_manage' in user.get_group_permissions %}#}
+        {#                                <li><a href="#">课程管理</a></li>#}
+        {#                            {% endif %}#}
+        {#                            {% if user.is_superuser or 'scores.access_assignment_manage' in user.get_group_permissions %}#}
+        {#                                <li class="dropdown">#}
+        {#                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+        {#                                        作业管理<b class="caret"></b>#}
+        {#                                    </a>#}
+        {#                                    <ul class="dropdown-menu">#}
+        {#                                        <li><a href="{% url 'scores:assignment_add'%}">添加作业</a></li>#}
+        {#                                        <li><a href="{% url 'scores:assignment_manage'%}">修改作业</a></li>#}
+        {#                                    </ul>#}
+        {#                                </li>#}
+        {#                            {% endif %}#}
+        {#                            {% if user.is_superuser or 'scores.access_score_manage' in user.get_group_permissions %}#}
+        {#                                <li><a href="{% url 'scores:score_manage'%}">成绩管理</a></li>#}
+        {#                            {% endif %}#}
+        {#                        {% endif %}#}
+        {#                        <li><a href="{% url 'scores:score' %}">成绩查询</a></li>#}
+        {#                        <li class="dropdown">#}
+        {#                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+        {#                                账号管理<b class="caret"></b>#}
+        {#                            </a>#}
+        {#                            <ul class="dropdown-menu">#}
+        {#                                <li><a href="{% url 'scores:profile' %}">Your Profile</a></li>#}
+        {#                                <li><a href="{% url 'scores:profile_update' %}">Edit Your Profile</a></li>#}
+        {#                                <li><a href="{% url 'scores:pwd_change' %}">Change Password</a></li>#}
+        {#                                <li><a href="{% url 'scores:logout' %}">Logout</a></li>#}
+        {#                            </ul>#}
+        {#                        </li>#}
+        {#                    </ul>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </nav>#}
+        {#    {% endif %}#}
+    </div>
+    <div role="main" class="ui-content inner ">
+        {% block page-content %}
+            <span>Welcome to Index Page!</span>
+            <div class="background"></div>
+        {% endblock %}
+    </div>
+    <div data-role="footer" data-theme="b">
+        <div data-role="navbar">
+            <ul>
+                {% if user.is_superuser or 'scores.access_score_manage' in user.get_group_permissions or 'scores.access_schedule_manage' in user.get_group_permissions or 'scores.access_assignment_manage' in user.get_group_permissions  %}
+                    {% if user.is_superuser or 'scores.access_schedule_manage' in user.get_group_permissions %}
+                        <li><a href="#" data-icon="gear" data-theme="a">课程</a></li>
+                    {% endif %}
+                    {% if user.is_superuser or 'scores.access_assignment_manage' in user.get_group_permissions %}
+                        <li><a href="{% url 'scores:assignment_manage'%}" data-icon="edit" data-theme="a">作业</a></li>
+                    {% endif %}
+                    {% if user.is_superuser or 'scores.access_score_manage' in user.get_group_permissions %}
+                        {#<li><a href="{% url 'scores:score_manage'%}" data-icon="arrow-r" data-theme="a">成绩管理</a></li>#}
+                    {% endif %}
+                {% endif %}
+                <li><a href="{% url 'scores:score' %}" data-icon="search" data-theme="a">成绩</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="{% static 'scores/js/jquery.min.js' %}"></script>
+<script src="{% static 'scores/js/jquery.mobile-1.4.5.min.js' %}"></script>
+<script src="{% static 'scores/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+    <form action="{% url 'scores:assignment_manage' %}" method="post" class="form-horizontal" role="form">
+        {% for value in form.errors.values %}
+            {{ value }}
+        {% endfor %}
+        <fieldset data-role="collapsible" data-collapsed="false">
+            <legend data-role="button">添加作业</legend>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_assignment_title" class="col-md-2 control-label">作业题目：</label>
+                <div class="col-md-10">{{ form.assignment_title }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_assignment_detail" class="col-md-2 control-label">作业描述：</label>
+                <div class="col-md-10">{{ form.assignment_detail }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_finish_date" class="col-md-2 control-label">完成日期：</label>
+                <div class="col-md-10">{{ form.finish_date }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_schedule" class="col-md-2 control-label"></label>
+                <div class="hidden">{{ form.schedule }}</div>
+                <div class="col-sm-offset-2 col-md-10">
+                    <button type="submit" value="Submit" class="btn btn-default">保存</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div data-role="collapsible">
+        <legend data-role="button">历史作业</legend>
+        <table class="ui-table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>作业名称</th>
+            </tr>
+            </thead>
+            {% if latest_Assignment_list%}
+                {% for assignment in latest_Assignment_list %}
+                    <tbody>
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <a href="{% url 'scores:score_manage_detail' assignment.id %}"  data-role="button">
+                                {{ assignment.assignment_title }}
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}

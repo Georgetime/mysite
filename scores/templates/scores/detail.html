@@ -1,0 +1,29 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+    <h1>{{ assignment.assignment_title }}</h1>
+    <h3>详细: {{ assignment.assignment_detail }}</h3>
+    <h3>开始时间: {{ assignment.create_date }}</h3>
+    <h3>完成时间: {{ assignment.finish_date }}</h3>
+    <h3>班级： {{ assignment.schedule }}</h3>
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    {% if assignment.score_set.all %}
+        <table class="table">
+            <thead>
+            <tr>
+                <td>学生： </td>
+                <td>作业： </td>
+                <td>分数： </td>
+            </tr>
+            </thead>
+            {% for score in assignment.score_set.all %}
+                <tr>
+                    <td>{{ score.student }}</td>
+                    <td>{{ assignment.assignment_title }}</td>
+                    <td>{{ score.level }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'scores/index.html'%}
+{% block page-content %}
+
+    {% if assignment%}
+        <h3>{{ assignment.assignment_title }}</h3>
+        <p>详细: {{ assignment.assignment_detail }}</p>
+        <p>开始时间: {{ assignment.create_date }}</p>
+        <p>完成时间: {{ assignment.finish_date }}</p>
+        <p>班级： {{ assignment.schedule.class_name }}</p>
+        <form action="{% url 'scores:score_manage_input' %}" method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            {% if formset.errors %}
+                {{ formset.errors }}
+            {% endif %}
+            <table class="table">
+                <thead>
+                <tr>
+{#                    <td>序号： </td>#}
+                    <td>学生： </td>
+{#                    <td>作业： </td>#}
+                    <td>级别： </td>
+                    <td>备注： </td>
+                </tr>
+                </thead>
+                {% for form in formset%}
+                    <tr>
+                        <td class="hidden">{{ form.id }}</td>
+{#                        <td>{{ forloop.counter }}</td>#}
+                        <td>{{ form.student }}</td>
+                        <td class="hidden">{{ form.assignment }}</td>
+                        <td>{{ form.level }}</td>
+                        <td>{{ form.description }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+        </form>
+    {% endif %}
+{% endblock %}
